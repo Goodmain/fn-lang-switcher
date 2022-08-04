@@ -46,12 +46,12 @@ Set this to "Do Nothing"
 Then run this script on log in (python3 should be installed)
 ------------
 
-Copy file `com.your_user_name.osx.fn-lang-switcher.plist` into `~/Library/LaunchAgents/`. Change __your_user_name__ in a filename to your real username. Do the same thing inside a file.
-Also change __path_to_python_file__ inside the file to folder where you put the `fn-lang-switcher.py` file.
+Copy file `com.your_user_name.osx.fn-lang-switcher.plist` into `~/Library/LaunchAgents/`. Change __your_user_name__ in a filename to your real username. Do the same thing inside the plist-file.
+Also change __path_to_python_file__ inside the plist-file to the folder where you put the `fn-lang-switcher.py` file.
 
 Run in terminal:
 
-    launchctl load ~/Library/LaunchAgents/com.your_real_username.osx.test.plist
+    launchctl load ~/Library/LaunchAgents/com.your_real_username.osx.fn-lang-switcher.plist
 
 
 More information you'll find [here](https://stackoverflow.com/a/9523030/16259768).
