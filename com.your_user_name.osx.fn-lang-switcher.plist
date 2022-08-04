@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC -//Apple Computer//DTD PLIST 1.0//EN http://www.apple.com/DTDs/PropertyList-1.0.dtd >
+<plist version="1.0">
+  <dict>
+    <key>Label</key>
+    <string>com.your_user_name.osx.fn-lang-switcher</string>
+    <key>Program</key>
+    <string>/path_to_python_file/fn-lang-switcher.py</string>
+    <key>KeepAlive</key>
+    <true/>
+  </dict>
+</plist>

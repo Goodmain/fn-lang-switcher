@@ -9,7 +9,7 @@ Not only its slow, but when mouse cursor happens to be in the center of the scre
 Install ["issw"](https://github.com/vovkasm/input-source-switcher) a small utility for macos to switch input sources from a command line.
 ------------
 
-    git clone https://github.com/norflin321/input-source-switcher.git
+    git clone git@github.com:vovkasm/input-source-switcher.git
     cd input-source-switcher
     mkdir build && cd build
     cmake ..
@@ -19,23 +19,25 @@ Install ["issw"](https://github.com/vovkasm/input-source-switcher) a small utili
 Create fn-lang-switcher.py file in ~/.
 ------------
 
-    import os
+    #!/usr/bin/env python3
+    import subprocess
     from pynput import keyboard
 
     def on_press(key):
         key_str = '{0}'.format(key)
         if (key_str == '<179>'):
-            stream = os.popen('issw')
-            output = stream.read().strip()
-            if (output == 'com.apple.keylayout.ABC'):
-                os.system('issw com.apple.keylayout.Russian')
-            else:
-                os.system('issw com.apple.keylayout.ABC')
-
+            result = subprocess.Popen(['/usr/local/bin/issw', '-l'], stdout=subprocess.PIPE)
+            output, _ = result.communicate()
+            layouts = output.decode('utf-8').split('\n')
+            layouts = [str for str in layouts if 'com.apple.keylayout' in str]
+            result = subprocess.Popen('/usr/local/bin/issw', stdout=subprocess.PIPE)
+            output, _ = result.communicate()
+            next_index = (layouts.index(output.decode('utf-8').strip()) + 1) % len(layouts)
+            subprocess.run(['/usr/local/bin/issw', layouts[next_index]], stdout=subprocess.DEVNULL)
 
     with keyboard.Listener(on_press=on_press, on_release=None) as listener:
         listener.join()
-"<179>" is key code for "fn", run "issw -l" in terminal to get list of available input sources, modify script above if needed
+"<179>" is key code for "fn".
 
 Set this to "Do Nothing"
 ------------
@@ -43,7 +45,16 @@ Set this to "Do Nothing"
 
 Then run this script on log in (python3 should be installed)
 ------------
-https://stackoverflow.com/a/9523030/16259768
+
+Copy file `com.your_user_name.osx.fn-lang-switcher.plist` into `~/Library/LaunchAgents/`. Change __your_user_name__ in a filename to your real username. Do the same thing inside a file.
+Also change __path_to_python_file__ inside the file to folder where you put the `fn-lang-switcher.py` file.
+
+Run in terminal:
+
+    launchctl load ~/Library/LaunchAgents/com.your_real_username.osx.test.plist
+
+
+More information you'll find [here](https://stackoverflow.com/a/9523030/16259768).
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 # RESULT:
